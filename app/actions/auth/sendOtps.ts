@@ -1,14 +1,22 @@
 "use server";
-import { SendOtpState } from "@/features/auth/types/types";
+import { OtpState } from "@/features/auth/types/types";
+import http from "@/services/server/http";
 
 export async function sendOtpAction(
-  state: SendOtpState,
+  _: OtpState,
   formData: FormData
-): Promise<SendOtpState> {
+): Promise<OtpState> {
   const phone = formData.get("phone")?.toString() || "";
-    
-    
-    
+
+  try {
+    const res = await http.post("/auth/send-otp", { mobile: phone });
+    if (res.status === 200) {
+      return { success: true, message: `OTP sent to ${phone}` };
+    }
+  } catch (error) {
+    console.error("Error sending OTP:", error);
+    return { success: false, message: "Failed to send OTP" };
+  }
 
   return { success: true, message: `OTP sent to ${phone}` };
 }

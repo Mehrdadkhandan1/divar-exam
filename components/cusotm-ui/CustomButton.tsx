@@ -1,8 +1,12 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { Spinner } from "../ui/spinner";
 
-const CustomButton = (props: React.ComponentProps<typeof Button>) => {
+const CustomButton = ({
+  isPending,
+  ...props
+}: React.ComponentProps<typeof Button> & { isPending?: boolean }) => {
   return (
     <Button
       {...props}
@@ -11,7 +15,7 @@ const CustomButton = (props: React.ComponentProps<typeof Button>) => {
         props.className
       )}
     >
-      {props.children}
+      {isPending ? <Spinner /> : props.children}
     </Button>
   );
 };

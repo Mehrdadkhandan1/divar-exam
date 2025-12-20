@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import { PublicEnvScript } from "next-runtime-env";
 
 const vazir = localFont({
   src: [
@@ -47,6 +48,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl" className={vazir.variable}>
+       <head>
+        <PublicEnvScript />
+      </head>
       <body className={`${vazir.className} `}>
         <Header />
         {children}

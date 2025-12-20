@@ -2,19 +2,21 @@
 import { sendOtpAction } from "@/app/actions/auth/sendOtps";
 import { Input } from "@/components/ui/input";
 import React, { useActionState, useEffect } from "react";
-import { SendOtpState } from "../types/types";
+import { OtpState } from "../types/types";
 import CustomButton from "@/components/cusotm-ui/CustomButton";
+import { validatePhone } from "../validation";
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  phone: string;
+  setPhone: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const SendOtpForm = ({ setStep }: Props) => {
-  const [state, formAction] = useActionState<SendOtpState, FormData>(
+const SendOtpForm = ({ setStep, phone, setPhone }: Props) => {
+  const [state, formAction, isPending] = useActionState<OtpState, FormData>(
     sendOtpAction,
     null
   );
-
   useEffect(() => {
     if (state?.success) {
       setStep(2);
@@ -35,12 +37,24 @@ const SendOtpForm = ({ setStep }: Props) => {
         <Input
           id="phone"
           name="phone"
+          type="tel"
+          inputMode="numeric"
+          maxLength={11}
           placeholder="شماره موبایل"
+          value={phone}
+          onChange={(e) => {
+            const value = e.target.value.replace(/\D/g, "");
+            setPhone(value);
+          }}
           className="border-2 hover:outline-0! focus:outline-0! focus:shadow-none!"
         />
       </div>
       <div>
-        <CustomButton type="submit" className="">
+        <CustomButton
+          isPending={isPending}
+          disabled={!validatePhone(phone)}
+          type="submit"
+        >
           تایید{" "}
         </CustomButton>
       </div>
