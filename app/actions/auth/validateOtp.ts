@@ -21,15 +21,29 @@ export async function validationOtp(
       code: otp,
       mobile: formData.get("phone"),
     });
-    (await cookies()).set("accessToken", res.data.accessToken, {
+    const cookiesStore = cookies();
+    (await cookiesStore).set("accessToken", res.data.accessToken, {
       httpOnly: true,
       name: "accessToken",
       path: "/",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+    // Set cookie for refresh token
+    (await cookiesStore).set("refreshToken", res.data.refreshToken, {
+      httpOnly: true,
+      name: "refreshToken",
+      path: "/",
       maxAge: 1000 * 60 * 60 * 24 * 30 * 12,
     });
+
     return { success: true, message: "OTP validated successfully" };
   } catch (error) {
-    console.error("Error validating OTP:", error);
-    return { success: false, message: "Failed to validate OTP" };
+    const err = error as { status: number };
+    console.error("Error validating OTP:", err.status);
+    return {
+      success: false,
+      message: "Failed to validate OTP",
+      status: err.status,
+    };
   }
 }
