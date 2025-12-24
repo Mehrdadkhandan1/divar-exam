@@ -14,7 +14,7 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
   if (publicRoute.includes(path) && accessToken) {
-    // const dashboardUrl = new URL("/", req.url);
-    // return NextResponse.redirect(dashboardUrl);
+    const dashboardUrl = new URL("/", req.url);
+    return NextResponse.redirect(dashboardUrl);
   }
 }

@@ -3,12 +3,15 @@ import { whoami } from "@/features/auth/services/authServices";
 import { redirect } from "next/navigation";
 
 const AuthPage = async () => {
+  let user = null;
   try {
-    await whoami();
-    redirect("/dashboard");
+    user = await whoami();
   } catch {}
-
-  return <AuthClient />;
+  if (user) {
+    redirect("/");
+  } else {
+    return <AuthClient />;
+  }
 };
 
 export default AuthPage;
