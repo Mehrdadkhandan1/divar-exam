@@ -4,8 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import { PublicEnvScript } from "next-runtime-env";
 import Providers from "@/components/providers/Providers";
-import { whoami } from "@/features/auth/services/authServices";
-import { cookies } from "next/headers";
+
 
 const vazir = localFont({
   src: [

@@ -17,19 +17,24 @@ export async function validationOtp(
     return { success: false, message: "Invalid OTP format" };
   }
   try {
-    const res: validateOtpRespinseType = await http.post("/auth/check-otp", {
-      code: otp,
-      mobile: formData.get("phone"),
-    });
+    console.log(formData.get("mobile"));
+    const res: validateOtpRespinseType = await http("/auth/check-otp", {
+      method: "POST",
+      body: JSON.stringify({
+        code: otp,
+        mobile: formData.get("phone")?.toString(),
+      }),
+    }).then((res) => res.json());
+
     const cookiesStore = cookies();
-    (await cookiesStore).set("accessToken", res.data.accessToken, {
+    (await cookiesStore).set("accessToken", res.accessToken, {
       httpOnly: true,
       name: "accessToken",
       path: "/",
-      maxAge: 1000 * 60 * 60 * 24,
+      maxAge: 60,
     });
     // Set cookie for refresh token
-    (await cookiesStore).set("refreshToken", res.data.refreshToken, {
+    (await cookiesStore).set("refreshToken", res.refreshToken, {
       httpOnly: true,
       name: "refreshToken",
       path: "/",

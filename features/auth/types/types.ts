@@ -5,9 +5,7 @@ export type OtpState = {
 } | null;
 
 export type validateOtpRespinseType = {
-  data: {
-    accessToken: string;
-    refreshToken: string;
-    message: string;
-  };
+  accessToken: string;
+  refreshToken: string;
+  message: string;
 };

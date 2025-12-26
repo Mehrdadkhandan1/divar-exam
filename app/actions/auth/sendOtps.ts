@@ -9,7 +9,10 @@ export async function sendOtpAction(
   const phone = formData.get("phone")?.toString() || "";
 
   try {
-    const res = await http.post("/auth/send-otp", { mobile: phone });
+    const res = await http("/auth/send-otp", {
+      method: "POST",
+      body: JSON.stringify({ mobile: phone }),
+    });
     if (res.status === 200) {
       return { success: true, message: `OTP sent to ${phone}` };
     }
