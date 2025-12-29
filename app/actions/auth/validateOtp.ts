@@ -31,7 +31,7 @@ export async function validationOtp(
       httpOnly: true,
       name: "accessToken",
       path: "/",
-      maxAge: 60,
+      maxAge: 60 * 60 ,
     });
     // Set cookie for refresh token
     (await cookiesStore).set("refreshToken", res.refreshToken, {
