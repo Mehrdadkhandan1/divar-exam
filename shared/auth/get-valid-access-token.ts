@@ -1,4 +1,4 @@
-'use server'
+"use server";
 import { env } from "next-runtime-env";
 import { cookies } from "next/headers";
 
@@ -15,7 +15,6 @@ function isTokenExpired(token: string) {
 }
 
 export async function getValidAccessToken() {
-  console.log("first");
   const cookiesStore = cookies();
   const accessToken = (await cookiesStore).get("accessToken")?.value;
   const refreshToken = (await cookiesStore).get("refreshToken")?.value;
@@ -28,7 +27,6 @@ export async function getValidAccessToken() {
   if (!refreshTokenPrimise) {
     refreshTokenPrimise = (async () => {
       try {
-        console.log("first");
         const res = await fetch(
           `${env("NEXT_PUBLIC_API_BASE_URL")}/auth/check-refresh-token`,
           {
@@ -38,30 +36,25 @@ export async function getValidAccessToken() {
               "Content-Type": "application/json",
             },
             cache: "no-store",
-   
           }
         );
-        console.log("   refreshing token");
-        console.log(res);
+        console.log(await res.ok);
         if (!res.ok) {
           return null;
         }
 
         const data = await res.json();
-        (await cookiesStore).set("accessToken", data.accessToken, {
-          httpOnly: true,
-          path: "/",
-        });
-        return data.accessToken;
-      } catch (err) {
-        console.log(err);
+
+        return data;
+      } catch {
         return null;
-      }finally{
+      } finally {
         refreshTokenPrimise = null;
       }
     })();
-  }else{
-    console.log('2')
+  } else {
+    console.log("2");
   }
+  console.log("refreshTokenPrimise");
   return refreshTokenPrimise;
 }

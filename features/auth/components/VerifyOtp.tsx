@@ -26,7 +26,6 @@ const VerifyOtp = ({ setStep, phone }: Props) => {
   useEffect(() => {
     if (state?.success) {
       router.push("/");
-      console.log("OTP validated successfully");
     }
   }, [state, router]);
 

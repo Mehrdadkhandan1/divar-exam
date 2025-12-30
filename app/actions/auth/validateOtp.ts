@@ -17,7 +17,6 @@ export async function validationOtp(
     return { success: false, message: "Invalid OTP format" };
   }
   try {
-    console.log(formData.get("mobile"));
     const res: validateOtpRespinseType = await http("/auth/check-otp", {
       method: "POST",
       body: JSON.stringify({

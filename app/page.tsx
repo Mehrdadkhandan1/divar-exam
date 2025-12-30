@@ -1,3 +1,4 @@
+import SpinnerLoader from "@/components/layout/SpinnerLoader";
 
 export const metadata = {
   title: "دیوار | صفحه اصلی",
@@ -6,8 +7,9 @@ export const metadata = {
 export default async function Home() {
   
   return (
-    <div className="min-h-screen bg-white ">
-      <main className="max-w-7xl mx-auto py-8 px-4"></main>
+    <div className="min-h-screen bg-white relative ">
+      <main className="max-w-7xl mx-auto py-8 px-4 h-screen relative">
+      </main>
     </div>
   );
 }
