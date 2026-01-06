@@ -1,7 +1,9 @@
 'use client'
 import React from "react";
 import { ProgressProvider } from "@bprogress/next/app";
-const Providers = ({children}: { children: React.ReactNode }) => {
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const Providers = ({ children }: { children: React.ReactNode }) => {
+  const queryClient = new QueryClient()
   return (
     <ProgressProvider
       height="2px"
@@ -9,7 +11,9 @@ const Providers = ({children}: { children: React.ReactNode }) => {
       options={{ showSpinner: false }}
       shallowRouting
     >
-      {children}
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
     </ProgressProvider>
   );
 };
