@@ -1,10 +1,12 @@
-'use client'
+"use client";
 import React from "react";
+import { ToastContainer } from "react-toastify";
+
 import { ProgressProvider } from "@bprogress/next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "sonner";
+import ToastProvider from "@/context/ToastProvider";
 const Providers = ({ children }: { children: React.ReactNode }) => {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
   return (
     <ProgressProvider
       height="2px"
@@ -12,10 +14,12 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       options={{ showSpinner: false }}
       shallowRouting
     >
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
-      <Toaster />
+      <ToastProvider>
+        <ToastContainer />
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </ToastProvider>
     </ProgressProvider>
   );
 };
